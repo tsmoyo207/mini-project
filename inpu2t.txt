@@ -1,0 +1,27 @@
+THE LONG WAY UP
+
+A story about the slow arithmetic of effort
+
+
+CHAPTER ONE: THE WORKSHOP
+
+The first thing Samira Haddad learned about work was that it smelled like oil.
+
+Her father's garage sat at the bottom of a hill in a port town where the sea air ate through everything metal given enough years. Karim Haddad repaired engines: fishing boats, delivery vans, the occasional ancient tractor that some farmer refused to give up on. He started every morning at six, and by seven his hands were black to the wrist. By evening they were blacker. Samira had grown up doing her homework on an upturned crate in the corner of that workshop, listening to the rattle of wrenches and the radio murmuring from a shelf above the vice.
+
+She was seventeen the winter everything began, and she was not, by any measure, remarkable. She was good at mathematics in the way many quiet students are good at it: enough to be noticed, not enough to be celebrated. She had no trophies. She had no mentor. She had a secondhand laptop with a cracked corner and a battery that lasted forty minutes, which her uncle had given her when he upgraded his own.
+
+What she did have, though she did not yet know it, was a question.
+
+The question arrived on a Tuesday. A customer, a young man who ran a small fishing cooperative, came into the garage complaining about his boat's engine log. He tracked every repair in a paper notebook, and the notebook had gotten wet and illegible. "My nephew made me an app," he said, waving a phone. "It tells me when each part is due. Oil, filters, everything. Cost me nothing." He said it casually, the way people mention a miracle they have grown used to.
+
+Samira, on her crate, looked up from her chemistry homework. "Someone just made that?"
+
+"Sure. He's learning programming. He says anyone can."
+
+That night she lay awake. Her father had a paper ledger too, a fat green book that listed every job, every part, every customer who owed him money and every customer he owed. It lived in a drawer and was already losing pages. If a nephew could make an app for a fishing cooperative, someone could make one for a garage.
+
+Why not her?
+
+She searched the internet for how to begin. The first results made it sound like a weekend. "Learn to code in 30 days." "Become a developer in 12 weeks." "No experience needed." She believed them, as people do when they badly want something to be easy. She opened her laptop the next morning before school, found a free tutorial, and typed her first line of code.
+
