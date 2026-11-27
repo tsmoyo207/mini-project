@@ -87,8 +87,91 @@ void displayDictionary(Tree *t, int width){
     if(t->right != NULL){
         displayDictionary(t->right, width);
     }
-    
 }
+
+
+Tree *deleteABR(Tree *T, char word[]){
+    if(T == NULL){
+        return NULL;
+    }
+    if(strcmp(word, T->dict.word) < 0){
+        T->left = deleteABR(T->left, word);
+    }else{
+        if(strcmp(word, T->dict.word) > 0){
+            T->right = deleteABR(T->right, word);
+        }else{
+            if(T->left == NULL && T->right == NULL){
+                free(T);
+                return NULL;
+            }else{
+                if(T->left == NULL){
+                    Tree *temp = T->right;
+                    free(T);
+                    return temp;
+                }else{ 
+                    if(T->right == NULL){
+                        Tree *temp = T->left;
+                        free(T);
+                        return temp;
+                    }else{
+                        Tree *temp = T->right;
+
+                        while(temp->left != NULL){
+                        temp = temp->left;
+                        }
+
+                        T->dict = temp->dict;
+                        T->right = deleteABR(T->right, temp->dict);
+                    }
+                }
+            }
+        }
+    }
+    return abr;
+}
+
+
+dictionary searchTree(Tree *T, char word[], dictionary dict){
+    if(T == NULL){
+        return dict;
+    }
+    if(strcmp(word, T->dict.word) < 0){
+        dict = searchTree(T->left, word, dict);
+    }else{
+        if(strcmp(word, T->dict.word) > 0){
+           dict =  searchTree(T->right, word, dict);
+        }else{
+            dict = T->dict;
+        }
+    }
+
+    return dict;
+
+}
+
+
+int maxFreqABR(Tree *T, int fmax){
+
+    if(T != NULL){
+        fmax = maxFreqABR(T->left, fmax);
+        if(T->dict.freq > fmax){
+            fmax = T->dict.freq;
+        }
+        fmax = maxFreqABR(T->right, fmax);
+    }
+    return fmax;
+}
+
+
+void freeTree(Tree *t){
+    if(t == NULL){
+        return;
+    }
+        freeTree(t->left);
+        freeTree(t->right);
+        free(t);
+}
+
 
 
 int main(){
@@ -158,7 +241,15 @@ int main(){
         }
     }
 
+
+    dictionary *dict = (*dictionary)malloc(sizeof(dictionary));
+    dict->freq = 0;
+    strcpy("404", dict->word);
+
+
+
     displayDictionary(T, longest_word);
+    freeTree(T);
     fclose(f);
 
 }
