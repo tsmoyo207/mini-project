@@ -59,68 +59,53 @@ List *deletefromList(List *L, char word[]){
 }
 
 
-void displayListDictionary(List *L, int longest ) {
-    int n = 0;
-    /*I genuinely don't understand what going on here. Shouldnt it just traverse the list and display. Whats going on here*/
-
-    for (List *temp = L; temp; temp = temp->next){
-        printf("        %*s : %d\n",longest, temp->dict.word, temp->dict.freq);
-    }
-    
-    /*I genuinely don't understand what going on here. Shouldnt it just traverse the list and display. Whats going on here*/
-    
-    /*for (List *p = head; p; p = p->next) n++;
-    if (n == 0) return;
-    List **t = malloc(n * sizeof(dictionary *));
-    if (!t) exit(1);
-    int i = 0;
-    for (dictionary *p = head; p; p = p->next) t[i++] = p;
-
-    for (i = 1; i < n; i++) {
-        dictionary *key = t[i];
-        int j = i - 1;
-        while (j >= 0 && strcmp(t[j]->word, key->word) > 0) {
-            t[j + 1] = t[j];
-            j--;
-        }
-        t[j + 1] = key;
-    }
-    for (i = 0; i < n; i++) printf("%*s : %d\n",longest, t[i]->word, t[i]->freq);
-    free(t);
-    */
+void displayListDictionary(List *L) {
+    for (List *p = L; p; p = p->next)
+        printf("%s : %d\n", p->dict.word, p->dict.freq);
 }
 
-
 void mostFrequentList(List *L, int k) {
-   /*Sorry I messed something up on this one, I'll fix it though, when I understand it....... 
-   
-   int n = 0, max = 0;
+    int n = 0, max = 0;
+
+    /* 1. Count the nodes (n) and find the highest frequency (max) */
     for (List *temp = L; temp; temp = temp->next) {
         n++;
         if (temp->dict.freq > max) max = temp->dict.freq;
     }
-    if (n == 0) return;
+    if (n == 0 || k <= 0) return;
 
-    List **sorted = malloc(n*sizeof(List*));
+    /* 2. Allocations */
+    List **sorted = malloc(n * sizeof(List *));
     int *start = calloc(max + 1, sizeof(int));
-    if (!sorted || !start) exit(1);
+    if (!sorted || !start) {
+        free(sorted);
+        free(start);
+        exit(1);
+    }
 
-    for (List *p = head; p; p = p->next) start[p->freq]++;
+    /* 3. Counting: how many words have each frequency....counting sort */ 
+    for (List *temp = L; temp; temp = temp->next)
+        start[temp->dict.freq]++;
 
+    /* 4. Cumulative positions, highest frequency first */
     int pos = 0;
     for (int f = max; f >= 1; f--) {
         int c = start[f];
         start[f] = pos;
         pos += c;
     }
-    for (List *temp = L; temp; temp = temp->next) sorted[start[temp->freq]++] = temp;
 
+    /* 5. Place each node at its position */
+    for (List *temp = L; temp; temp = temp->next)
+        sorted[start[temp->dict.freq]++] = temp;
+
+    /* 6. Print the k most frequent */
     for (int i = 0; i < k && i < n; i++)
-        printf("%d. %s : %d\n", i + 1, sorted[i]->word, sorted[i]->freq);
+        printf("%d. %s : %d\n", i + 1, sorted[i]->dict.word, sorted[i]->dict.freq);
 
+    /* 7. Free the helper arrays (not the list nodes) */
     free(sorted);
     free(start);
-    */
 }
     
 
@@ -139,7 +124,7 @@ void freeList(List *L) {
 /* Writes n random words taken from a vocabulary of V words */
 void generate_random_text(const char *filename, int n, int V) {
     FILE *f = fopen(filename, "w");
-    if (!f) { perror("fopen"); return; }
+    if (!f) { perror("fopen"); return; } /*If the file couldn't be opened (bad path, no permission) perror states the reason and leaves the function*/
     for (int i = 0; i < n; i++)
         fprintf(f, "word%d ", rand() % V);
     fclose(f);
