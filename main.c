@@ -21,25 +21,28 @@ int main(){
     int longest = 0;
 
     do{
-        printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
-        printf("     |                    SELECT DATA STRUCTURE                       |\n" );
-        printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
+        
+        printf("          "WHT "SELECT DATA STRUCTURE\n"RESET );
+        
         printf(CYAN"            [1]"RESET"Fixed Length Array\n");
         printf(CYAN"            [2]"RESET"Dynamic Linked List\n");
         printf(CYAN"            [3]"RESET"Binary Search Tree\n");
         printf("            Select Option: ");
+      
        
         bool loop1 = true;
         bool loop2 = true;
 
         scanf("%d", &opt1);
+        printf("\n");
+        printf("\n");
         switch(opt1){
 
             case 1:
                 do{
-                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
-                    printf(GRN  "|                                          DYNAMIC LINKED LIST                     |\n"  RESET);
-                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
+                    
+                    printf(  "          "WHT"DYNAMIC LINKED LIST\n" RESET );
+                    
                     printf(CYAN"            [1]"RESET"Read file and build dictionary\n");
                     printf(CYAN"            [2]"RESET"Search for a word and display its frequency\n");
                     printf(CYAN"            [3]"RESET"Delete Word\n");
@@ -106,9 +109,9 @@ int main(){
                 break;
             case 2:
                 do{
-                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
-                    printf(GRN  "|                               FIXED LENGTH ARRAY\n                                      |"  RESET);
-                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
+                    
+                    printf("           " WHT"FIXED LENGTH ARRAY\n" RESET);
+                    
                     printf(CYAN"            [1]"RESET"Read file and build dictionary\n");
                     printf(CYAN"            [2]"RESET"Search for a word and display its frequency\n");
                     printf(CYAN"            [3]"RESET"Delete Word\n");
@@ -176,16 +179,14 @@ int main(){
 
             case 3:
                 do{
-                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
-                    printf(GRN  "|                              BINARY SEARCH TREE\n|                               "  RESET);
-                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
-                    printf(CYAN"[1]"RESET"Read file and build dictionary\n");
-                    printf(CYAN"[2]"RESET"Search for a word and display its frequency\n");
-                    printf(CYAN"[3]"RESET"Delete Word\n");
-                    printf(CYAN"[4]"RESET"Display Tree\n");
-                    printf(CYAN"[5]"RESET"Display k most frequent words\n");
-                    printf(CYAN"[6]"RESET"Generate Random Text\n");
-                    printf(CYAN"[7]"RESET"Back to Main\n");
+                    printf("           "WHT "BINARY SEARCH TREE\n"  RESET);
+                    printf(CYAN"            [1]"RESET"Read file and build dictionary\n");
+                    printf(CYAN"            [2]"RESET"Search for a word and display its frequency\n");
+                    printf(CYAN"            [3]"RESET"Delete Word\n");
+                    printf(CYAN"            [4]"RESET"Display Tree\n");
+                    printf(CYAN"            [5]"RESET"Display k most frequent words\n");
+                    printf(CYAN"            [6]"RESET"Generate Random Text\n");
+                    printf(CYAN"            [7]"RESET"Back to Main\n");
                     printf("Select Option: ");
                     scanf("%d", &opt3);
 
@@ -197,23 +198,23 @@ int main(){
                             break;
                         case 2:
                             
-                            printf("Enter Word to Search for: ");
+                            printf("        Enter Word to Search for: ");
                             scanf("%s", word);
 
                             freq = searchABR(T, word);
 
                             if(freq == -1){
-                                printf(RED"Word not found on Dictionary"RESET);
+                                printf(RED"         Word not found on Dictionary"RESET);
                             }else{
-                                printf(GRN"Seach Complete:"RESET"The word"GRN" %s "RESET"has a Freq of"GRN" %d " RESET, word, freq);
+                                printf(GRN"         Seach Complete:"RESET"The word"GRN" %s "RESET"has a Freq of"GRN" %d " RESET, word, freq);
                             }
                             pause();
                             break;
                         case 3:
-                            printf("Enter Word to Delete: ");
+                            printf("        Enter Word to Delete: ");
                             scanf("%s", word);
                             T = deletefromABR(T, word);
-                            printf(GRN"Process Complete"RESET);
+                            printf(GRN"     Process Complete"RESET);
                             pause();
                             break;
 
@@ -235,20 +236,20 @@ int main(){
                             //to be added
                             break;
                         case 7: 
-                            printf("Exiting to Main Menu............\n");
+                            printf("        Exiting to Main Menu............\n");
                             system(CLEAR_SCREEN);
                             loop2 = false;
                             break;
                         default:
-                            printf(RED"Invalid Option"RESET);
+                            printf(RED"         Invalid Option"RESET);
                             pause();
                             break;
                     }
 
                 }while(loop2);
                 break;
-            default: 
-                printf(RED"Sorry, Section not yet available\n");
+            default:    
+                printf(RED"         Sorry, Section not yet available\n");
 
         }
 

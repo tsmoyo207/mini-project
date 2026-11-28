@@ -3,8 +3,8 @@
 #include "common.h"
 
 List *addtoList(List *L, char word[]);
-int seachList(List *L, char word[]);
-int deletefromList(List *L, char word[]);
+int searchList(List *L, char word[]);
+List *deletefromList(List *L, char word[]);
 void displayListDictionary(List *L, int longest);
 void mostFrequentList(List *L, int k);
 void freeList(List *L);

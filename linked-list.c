@@ -27,7 +27,7 @@ List *addtoList(List *L, char word[]){
     return newNode;
 }
 
-int seachList(List *L, char word[]){
+int searchList(List *L, char word[]){
     for(List *temp = L; temp ; temp= temp->next){
         if(strcmp(temp->dict.word,word) == 0){
             return temp->dict.freq;
@@ -38,7 +38,7 @@ int seachList(List *L, char word[]){
 
 
 
-int deletefromList(List *L, char word[]){
+List *deletefromList(List *L, char word[]){
     List *temp = L;
     List *p = NULL;
     while(temp){
@@ -48,11 +48,13 @@ int deletefromList(List *L, char word[]){
           p = temp;
           temp = p->next;
           free(p);
-          return 1;
+          printf(GRN"Deletion Successful\n"RESET);
+          return L;
        }
        //p = &(*p)->next; //this line was just giving me an error idk
     }
-  return 0;
+    printf(RED"Word not found\n"RESET);
+  return L;
 }
 
 
@@ -61,7 +63,7 @@ void displayListDictionary(List *L, int longest ) {
     /*I genuinely don't understand what going on here. Shouldnt it just traverse the list and display. Whats going on here*/
 
     for (List *temp = L; temp; temp = temp->next){
-        printf("%*s : %d\n",longest, temp->dict.word, temp->dict.freq);
+        printf("        %*s : %d\n",longest, temp->dict.word, temp->dict.freq);
     }
     
     /*I genuinely don't understand what going on here. Shouldnt it just traverse the list and display. Whats going on here*/

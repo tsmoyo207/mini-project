@@ -115,7 +115,7 @@ Array *deletefromArray(Array *A, char word[]){
 // Procedure to display the contents of the dictionary and their frequencies
 void displayArrayDictionary(Array *A, int longest ){
     for(int i = 0; i < A->n; i++){
-        printf("%*s : %d\n", 
+        printf("        %*s : %d\n", 
             longest,
             A->dict[i].word, 
             A->dict[i].freq

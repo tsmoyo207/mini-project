@@ -17,7 +17,7 @@ void lowercase(char word[]){
     }
 }
 
-void splitWordsFromFile(List **L, Array **A, Tree **T,  int indicator, int *e){
+void splitWordsFromFile(List **L, Array **A, Tree **T,  int indicator, int *longest){
     FILE*f = fopen("input.txt" , "r");
     if(!f){
         printf("Failed to open file\n");
@@ -25,7 +25,7 @@ void splitWordsFromFile(List **L, Array **A, Tree **T,  int indicator, int *e){
     }
     char line[MAXLINE]; 
     char line_clean[MAXLINE];
-    int longest_word = 0;
+    
 
     while(fgets(line, sizeof line, f)!= NULL){
         line[strcspn(line, "\n")] = '\0';
@@ -58,8 +58,8 @@ void splitWordsFromFile(List **L, Array **A, Tree **T,  int indicator, int *e){
                 q++;
             }
             word[e] = '\0';
-            if(e > longest_word){
-                longest_word = e;
+            if(e > *longest){
+                *longest = e;
             }
             if (e > 0) {
                 lowercase(word);
@@ -101,6 +101,7 @@ bool generateText(char Filename [], int n, int V){
         fclose(f);
         return false;
     }
+    
 
     for(int i = 0; i < n; i++){
         fprintf(f, "w%d\n", rand() % V);

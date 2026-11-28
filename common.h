@@ -29,6 +29,8 @@
 #define BR_YEL "\x1B[93m"
 #define GREY "\x1B[90m"
 
+#define WHT "\033[1;4;37m"
+
 
 
 typedef struct{

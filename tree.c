@@ -52,7 +52,7 @@ void displayABRDictionary(Tree *t, int longest ){
         if(t->left != NULL){
             displayABRDictionary(t->left, longest);
         }
-        printf("%*s  :%d\n",longest, t->dict.word, t->dict.freq);
+        printf("        %*s  :%d\n",longest, t->dict.word, t->dict.freq);
         if(t->right != NULL){
             displayABRDictionary(t->right, longest);
         }
