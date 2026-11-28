@@ -1,0 +1,259 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
+#include "array.h"
+#include "common.h"
+#include "tree.h"
+#include "linked-list.h" 
+
+int main(){
+
+    Tree *T = NULL;
+    Array *A = initialiseArray();
+    List *L = NULL;
+    bool loop = true;
+    int opt2, opt1, opt3;
+    char word[MAXWORD];
+    int freq;
+    int k;
+    int longest = 0;
+
+    do{
+        printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
+        printf("     |                    SELECT DATA STRUCTURE                       |\n" );
+        printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
+        printf(CYAN"            [1]"RESET"Fixed Length Array\n");
+        printf(CYAN"            [2]"RESET"Dynamic Linked List\n");
+        printf(CYAN"            [3]"RESET"Binary Search Tree\n");
+        printf("            Select Option: ");
+       
+        bool loop1 = true;
+        bool loop2 = true;
+
+        scanf("%d", &opt1);
+        switch(opt1){
+
+            case 1:
+                do{
+                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
+                    printf(GRN  "|                                          DYNAMIC LINKED LIST                     |\n"  RESET);
+                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
+                    printf(CYAN"            [1]"RESET"Read file and build dictionary\n");
+                    printf(CYAN"            [2]"RESET"Search for a word and display its frequency\n");
+                    printf(CYAN"            [3]"RESET"Delete Word\n");
+                    printf(CYAN"            [4]"RESET"Display Tree\n");
+                    printf(CYAN"            [5]"RESET"Display k most frequent words\n");
+                    printf(CYAN"            [6]"RESET"Generate Random Text\n");
+                    printf(CYAN"            [7]"RESET"Back to Main\n");
+                    printf("            Select Option: ");
+                    scanf("%d", &opt2);
+
+                    switch(opt2){
+                        case 1:
+                            longest = 0;
+                            splitWordsFromFile(&L, &A, &T, 1, &longest);
+                            pause();
+                            break;
+                        case 2:
+                            
+                            printf("Enter Word to Search for: ");
+                            scanf("%s", word);
+
+                            freq = searchList(L, word);
+
+                            if(freq == -1){
+                                printf(RED"Word not found on Dictionary"RESET);
+                            }else{
+                                printf(GRN"Seach Complete:"RESET"The word"GRN" %s "RESET"has a Freq of"GRN" %d " RESET, word, freq);
+                            }
+                            pause();
+                            break;
+                        case 3:
+                            printf("Enter Word to Delete: ");
+                            scanf("%s", word);
+                            L = deletefromList(L, word);
+                            pause();
+                            break;
+                        
+                        case 4:
+                            displayListDictionary(L, longest);
+                            pause();
+                            break;
+                        
+                        case 5:
+                            printf("Enter how many words to Display: ");
+                            scanf("%d", &k);
+                            mostFrequentList(L, k);
+                            pause();
+                            break;
+                        case 6:
+                            //to be added
+                            break;
+                        case 7: 
+                            printf("Exiting to Main Menu............\n");
+                            system(CLEAR_SCREEN);
+                            loop1 = false;
+                            break;
+                        default:
+                            printf(RED"Invalid Option"RESET);
+                            pause();
+                            break;
+                    }
+
+                }while(loop1);
+                break;
+            case 2:
+                do{
+                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
+                    printf(GRN  "|                               FIXED LENGTH ARRAY\n                                      |"  RESET);
+                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
+                    printf(CYAN"            [1]"RESET"Read file and build dictionary\n");
+                    printf(CYAN"            [2]"RESET"Search for a word and display its frequency\n");
+                    printf(CYAN"            [3]"RESET"Delete Word\n");
+                    printf(CYAN"            [4]"RESET"Display Tree\n");
+                    printf(CYAN"            [5]"RESET"Display k most frequent words\n");
+                    printf(CYAN"            [6]"RESET"Generate Random Text\n");
+                    printf(CYAN"            [7]"RESET"Back to Main\n");
+                    printf("            Select Option: ");
+                    scanf("%d", &opt2);
+
+                    switch(opt2){
+                        case 1:
+                            longest = 0;
+                            splitWordsFromFile(&L, &A, &T, 2, &longest);
+                            pause();
+                            break;
+                        case 2:
+                            
+                            printf("            Enter Word to Search for: ");
+                            scanf("%s", word);
+
+                            freq = searchArray(A, word);
+
+                            if(freq == -1){
+                                printf(RED"         Word not found on Dictionary"RESET);
+                            }else{
+                                printf(GRN"         Seach Complete:"RESET"The word"GRN" %s "RESET"has a Freq of"GRN" %d " RESET, word, freq);
+                            }
+                            pause();
+                            break;
+                        case 3:
+                            printf("            Enter Word to Delete: ");
+                            scanf("%s", word);
+                            A = deletefromArray(A, word);
+                            pause();
+                            break;
+                        
+                        case 4:
+                            displayArrayDictionary(A, longest);
+                            pause();
+                            break;
+                        
+                        case 5:
+                            printf("            Enter how many words to Display: ");
+                            scanf("%d", &k);
+                            mostFrequent(A, k);
+                            pause();
+                            break;
+                        case 6:
+                            //to be added
+                            break;
+                        case 7: 
+                            printf("Exiting to Main Menu............\n");
+                            system(CLEAR_SCREEN);
+                            loop1 = false;
+                            break;
+                        default:
+                            printf(RED"         Invalid Option"RESET);
+                            pause();
+                            break;
+                    }
+
+                }while(loop1);
+                break;
+
+            case 3:
+                do{
+                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
+                    printf(GRN  "|                              BINARY SEARCH TREE\n|                               "  RESET);
+                    printf("     "CYAN "+-------------------------------------------------------------------------+\n" RESET);
+                    printf(CYAN"[1]"RESET"Read file and build dictionary\n");
+                    printf(CYAN"[2]"RESET"Search for a word and display its frequency\n");
+                    printf(CYAN"[3]"RESET"Delete Word\n");
+                    printf(CYAN"[4]"RESET"Display Tree\n");
+                    printf(CYAN"[5]"RESET"Display k most frequent words\n");
+                    printf(CYAN"[6]"RESET"Generate Random Text\n");
+                    printf(CYAN"[7]"RESET"Back to Main\n");
+                    printf("Select Option: ");
+                    scanf("%d", &opt3);
+
+                    switch(opt3){
+                        case 1:
+                            longest = 0;
+                            splitWordsFromFile(&L, &A, &T, 3, &longest);
+                            pause();
+                            break;
+                        case 2:
+                            
+                            printf("Enter Word to Search for: ");
+                            scanf("%s", word);
+
+                            freq = searchABR(T, word);
+
+                            if(freq == -1){
+                                printf(RED"Word not found on Dictionary"RESET);
+                            }else{
+                                printf(GRN"Seach Complete:"RESET"The word"GRN" %s "RESET"has a Freq of"GRN" %d " RESET, word, freq);
+                            }
+                            pause();
+                            break;
+                        case 3:
+                            printf("Enter Word to Delete: ");
+                            scanf("%s", word);
+                            T = deletefromABR(T, word);
+                            printf(GRN"Process Complete"RESET);
+                            pause();
+                            break;
+
+                        
+                        case 4:
+                            displayABRDictionary(T, longest);
+                            pause();
+
+                            break;
+                        
+                        case 5:
+                        /*
+                            printf("Enter how many words to Display: ");
+                            scanf("%d", &k);
+                            mostFrequent(A, k);
+                            break;
+                        */
+                        case 6:
+                            //to be added
+                            break;
+                        case 7: 
+                            printf("Exiting to Main Menu............\n");
+                            system(CLEAR_SCREEN);
+                            loop2 = false;
+                            break;
+                        default:
+                            printf(RED"Invalid Option"RESET);
+                            pause();
+                            break;
+                    }
+
+                }while(loop2);
+                break;
+            default: 
+                printf(RED"Sorry, Section not yet available\n");
+
+        }
+
+    }while(loop);
+    freeABR(T);
+    return 0;
+}
+
