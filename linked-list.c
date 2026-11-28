@@ -6,7 +6,7 @@
 
 #define MAX 100       
 
-/* FIXED: removed the stray "typedef struct{" line */
+
 typedef struct node{
     char word[MAX];
     int freq;
