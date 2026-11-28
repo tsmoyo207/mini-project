@@ -1,32 +1,15 @@
-//Hey Prince
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "array.h"
+#include "common.h"
 
-#define MAXlen 100000
-#define MAX 100
 
-typedef struct{
-    char word[MAX]; //stores the word itself
-    int freq; // stores how many times the word appears in the text
-}dictionary;
 
-// Define a structure to hold an array of dictionary entries
-typedef struct{
-    dictionary dictTab[MAXlen]; // array of dictionary entries
-    int n; // number of words currently stored in the array
-}Array;
 
 // Procedure to convert a word to lowercase
-void lowercase(char word[]){
-    int i = 0;
-    while(word[i] != '\0'){  // continue until we reach the end of the string
-        word[i] = tolower((unsigned char)(word[i]));
-        i++;
-    }
-}
 
 //Procedure to initialize the array
 void initialise(Array *A){
@@ -197,8 +180,9 @@ void MostFrequent(Array *A, int Nbwords){
 }
 
 // declare the global dictionary array
-Array A;
+//Array A;
 
+/*
 int main(){
     // initialise the dictionary before using it
     initialise(&A);
@@ -211,8 +195,8 @@ int main(){
         return 1;
     }
 
-    char line[MAX];// buffer used to temporarily store the word being read
-    int length = 0;// tracks the length of the current word being read
+    char line[MAX]; // buffer used to temporarily store the word being read
+    int length = 0; // tracks the length of the current word being read
     int ch; // variable to store each character read from the file
 
     // read the file character by character until the end of the file is reached
@@ -241,11 +225,10 @@ int main(){
         addword(&A, line); // add the word to the dictionary
     }
     fclose(f); // close the input file after reading all words
-    
     displayDictionary(&A); // display the contents of the dictionary along with their frequencies
     printf("\nMost frequent words:\n"); // display the most frequent words in the dictionary
     MostFrequent(&A, 10);// diplay 10 most frequent words
-
     return 0;
 
 }
+*/
