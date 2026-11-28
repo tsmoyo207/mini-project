@@ -203,7 +203,7 @@ int main(){
     // initialise the dictionary before using it
     initialise(&A);
     //open an input file in reading mode
-    FILE *f = fopen("input.csv", "r");
+    FILE *f = fopen("input.txt", "r");
 
    // check if the file was opened successfully
     if(!f){
@@ -216,14 +216,14 @@ int main(){
     int ch; // variable to store each character read from the file
 
     // read the file character by character until the end of the file is reached
-    if((ch = fgetc(f)) != EOF){
+    while((ch = fgetc(f)) != EOF){
         // If the character is a letter, a space, or an apostrophe,
         // add it to the temporary buffer
         if(isalpha((unsigned char)ch) || ch == ' ' || ch == '\''){
             // ensure we dont exceed the maximum length of the buffer
             if(length < MAX - 1){
                 // add the character to the buffer and increment the length
-                line[lenght] = (char)ch;
+                line[length] = (char)ch;
                 length++;
             }
         // if the character is not accepted, it acts as a sepator, and we process the current word in the buffer
