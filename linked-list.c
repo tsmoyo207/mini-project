@@ -33,7 +33,7 @@ int seachList(List *L, char word[]){
             return temp->freq;
         } 
     }
-    return 0;
+    return -1;
 }
 
 
@@ -55,7 +55,7 @@ int deletefromList(List *L, char word[]){
 }
 
 
-void displayList(List *L) {
+void displayListDictionary(List *L) {
     int n = 0;
     /*I genuinely don't understand what going on here. Should it just traverse the list and display. Whats going on here*/
     for (dictionary *p = head; p; p = p->next) n++;
@@ -79,7 +79,7 @@ void displayList(List *L) {
 }
 
 
-void list_top_k(List *L, int k) {
+void mostFrequentList(List *L, int k) {
     int n = 0, max = 0;
     for (List *temp = L; temp; temp = temp->next) {
         n++;

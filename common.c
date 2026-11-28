@@ -16,7 +16,7 @@ void lowercase(char word[]){
     }
 }
 
-void splitWordsFromFile(Tree **T, Array **A, int indicator, int *e){
+void splitWordsFromFile(List **L, Array **A, Tree **T,  int indicator, int *e){
     FILE*f = fopen("input.txt" , "r");
     if(!f){
         printf("Failed to open file\n");
@@ -63,13 +63,16 @@ void splitWordsFromFile(Tree **T, Array **A, int indicator, int *e){
             if (e > 0) {
                 lowercase(word);
                 switch(indicator){
-                case 3:
-                    *T = addwordtoABR(*T, word);
-                    break;
                 case 1:
-                    *A = addwordtoArray(*A, word);
+                    *L = addtoList(*L, word);
                     break;
-                }
+                case 2:
+                    *A = addtoArray(*A, word);
+                    break;
+                case 3:
+                    *T = addtoABR(*T, word);
+                    break;     
+            }
             }
         }
     }

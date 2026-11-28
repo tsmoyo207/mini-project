@@ -8,7 +8,7 @@
 
 Array *initialiseArray();
 int searchArray(Array *A, char word[]);
-Array *addwordtoArray(Array *A, char word[]);
+Array *addtoArray(Array *A, char word[]);
 void displayArrayDictionary(Array *A);
 void mostFrequent(Array *A, int Nbwords);
 void destroyArray(Array *A);

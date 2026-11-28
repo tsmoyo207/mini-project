@@ -11,16 +11,12 @@ int main(){
 
     Tree *T = NULL;
     Array *A = initialiseArray();
-
     bool loop = true;
-    
     int opt2, opt1, opt3;
     char word[MAXWORD];
     int freq;
     int k;
-
-   
-    
+    int longest = 0;
 
     do{
         printf(GRN  "SELECT DATA STRUCTURE \n"  RESET);
@@ -34,7 +30,75 @@ int main(){
 
         scanf("%d", &opt1);
         switch(opt1){
+
             case 1:
+                do{
+                    printf(GRN  "DYNAMIC LINKED LIST\n"  RESET);
+                    printf(CYAN"[1]"RESET"Read file and build dictionary\n");
+                    printf(CYAN"[2]"RESET"Search for a word and display its frequency\n");
+                    printf(CYAN"[3]"RESET"Delete Word\n");
+                    printf(CYAN"[4]"RESET"Display Tree\n");
+                    printf(CYAN"[5]"RESET"Display k most frequent words\n");
+                    printf(CYAN"[6]"RESET"Generate Random Text\n");
+                    printf(CYAN"[7]"RESET"Back to Main\n");
+                    printf("Select Option: ");
+                    scanf("%d", &opt2);
+
+                    switch(opt2){
+                        case 1:
+                            longest = 0;
+                            splitWordsFromFile(&L, &A, &T, 1, &longest);
+                            pause();
+                            break;
+                        case 2:
+                            
+                            printf("Enter Word to Search for: ");
+                            scanf("%s", word);
+
+                            freq = searchList(L, word);
+
+                            if(freq == -1){
+                                printf(RED"Word not found on Dictionary"RESET);
+                            }else{
+                                printf(GRN"Seach Complete:"RESET"The word"GRN" %s "RESET"has a Freq of"GRN" %d " RESET, word, freq);
+                            }
+                            pause();
+                            break;
+                        case 3:
+                            printf("Enter Word to Delete: ");
+                            scanf("%s", word);
+                            L = deletefromList(L, word);
+                            pause();
+                            break;
+                        
+                        case 4:
+                            displayListDictionary(L);
+                            pause();
+                            break;
+                        
+                        case 5:
+                            printf("Enter how many words to Display: ");
+                            scanf("%d", &k);
+                            mostFrequentList(L, k);
+                            pause();
+                            break;
+                        case 6:
+                            //to be added
+                            break;
+                        case 7: 
+                            printf("Exiting to Main Menu............\n");
+                            system(CLEAR_SCREEN);
+                            loop1 = false;
+                            break;
+                        default:
+                            printf(RED"Invalid Option"RESET);
+                            pause();
+                            break;
+                    }
+
+                }while(loop1);
+                break;
+            case 2:
                 do{
                     printf(GRN  "FIXED LENGTH ARRAY\n"  RESET);
                     printf(CYAN"[1]"RESET"Read file and build dictionary\n");
@@ -49,7 +113,8 @@ int main(){
 
                     switch(opt2){
                         case 1:
-                            splitWordsFromFile(&T, &A, 1, 0);
+                            longest = 0;
+                            splitWordsFromFile(&L, &A, &T, 2, &longest);
                             pause();
                             break;
                         case 2:
@@ -116,8 +181,8 @@ int main(){
 
                     switch(opt3){
                         case 1:
-                            int e = 0;
-                            splitWordsFromFile(&T, &A, 3, &e);
+                            longest = 0;
+                            splitWordsFromFile(&L, &A, &T, 3, &longest);
                             pause();
                             break;
                         case 2:
@@ -179,7 +244,6 @@ int main(){
 
     }while(loop);
     freeABR(T);
-  
     return 0;
 }
 

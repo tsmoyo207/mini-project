@@ -6,7 +6,7 @@
 #include "common.h"
 
 
-Tree *addwordtoABR(Tree *T, char word[]){
+Tree *addtoABR(Tree *T, char word[]){
     Tree *prev = NULL;
     Tree *C = T;
     int last_move = 0; 

@@ -57,7 +57,7 @@ int searchArray(Array *A, char word[]){
 }
 
 // Procedure to add a word to the array or increase its frequency if it already exists
-Array *addwordtoArray(Array *A, char word[]){
+Array *addtoArray(Array *A, char word[]){
     // First, we search for the word in the dictionary
     int index = findIndexArray(A, word);
     // If the word is found, we increase its frequency and return
