@@ -134,11 +134,11 @@ void MostFrequent(Array *A, int Nbwords){
     }
     /*
     allocate an array to count how words have each frequency,
-     index represents the frequency
+    index represents the frequency
     */
     int *count = calloc(fmax + 1, sizeof(int));
     /*
-     allocate an array to store the order of words based on their frequencies, arranged by decreasing frequency
+    allocate an array to store the order of words based on their frequencies, arranged by decreasing frequency
      */
     int *order = malloc(A->n * sizeof(int));
 
@@ -219,7 +219,7 @@ int main(){
     while((ch = fgetc(f)) != EOF){
         // If the character is a letter, a space, or an apostrophe,
         // add it to the temporary buffer
-        if(isalpha((unsigned char)ch) || ch == ' ' || ch == '\''){
+        if(isalpha((unsigned char)ch) || ch == '\''){
             // ensure we dont exceed the maximum length of the buffer
             if(length < MAX - 1){
                 // add the character to the buffer and increment the length
