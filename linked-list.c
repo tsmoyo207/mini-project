@@ -3,13 +3,13 @@
 #include <string.h>  
 #include <ctype.h>    
 #include <time.h>  
-#include "linked-list"   
+#include "linked-list.h"   
 
 List *addtoList(List *L, char word[]){
     if( L !=NULL){
-        for(List *temp = *L ; temp ; temp = temp->next){
-            if(strcmp(temp->word,w) == 0 ){
-                temp->freq++;
+        for(List *temp = L ; temp ; temp = temp->next){
+            if(strcmp(temp->dict.word,word) == 0 ){
+                temp->dict.freq++;
                 return L;
             }
         }
@@ -21,16 +21,16 @@ List *addtoList(List *L, char word[]){
         return L;
     }
 
-    strcpy(newNode->word, word);
-    newNode->freq = 1;
+    strcpy(newNode->dict.word, word);
+    newNode->dict.freq = 1;
     newNode->next = L;
     return newNode;
 }
 
 int seachList(List *L, char word[]){
     for(List *temp = L; temp ; temp= temp->next){
-        if(strcmp(temp->word,word) == 0){
-            return temp->freq;
+        if(strcmp(temp->dict.word,word) == 0){
+            return temp->dict.freq;
         } 
     }
     return -1;
@@ -40,27 +40,35 @@ int seachList(List *L, char word[]){
 
 int deletefromList(List *L, char word[]){
     List *temp = L;
+    List *p = NULL;
     while(temp){
         /*there are 3 cases for this one. When we've found the node we want to remove we need to check 
-        if its at the start, at the midddle or at the end*/
-       if(strcmp(temp->word , word) == 0){
-          List *p = *temp;
-          *temp = p->next;
+        if its at the start, at the middle or at the end*/
+       if(strcmp(temp->dict.word , word) == 0){
+          p = temp;
+          temp = p->next;
           free(p);
           return 1;
        }
-       p = &(*p)->next;
+       //p = &(*p)->next; //this line was just giving me an error idk
     }
   return 0;
 }
 
 
-void displayListDictionary(List *L) {
+void displayListDictionary(List *L, int longest ) {
     int n = 0;
-    /*I genuinely don't understand what going on here. Should it just traverse the list and display. Whats going on here*/
-    for (dictionary *p = head; p; p = p->next) n++;
+    /*I genuinely don't understand what going on here. Shouldnt it just traverse the list and display. Whats going on here*/
+
+    for (List *temp = L; temp; temp = temp->next){
+        printf("%*s : %d\n",longest, temp->dict.word, temp->dict.freq);
+    }
+    
+    /*I genuinely don't understand what going on here. Shouldnt it just traverse the list and display. Whats going on here*/
+    
+    /*for (List *p = head; p; p = p->next) n++;
     if (n == 0) return;
-    dictionary **t = malloc(n * sizeof(dictionary *));
+    List **t = malloc(n * sizeof(dictionary *));
     if (!t) exit(1);
     int i = 0;
     for (dictionary *p = head; p; p = p->next) t[i++] = p;
@@ -74,16 +82,19 @@ void displayListDictionary(List *L) {
         }
         t[j + 1] = key;
     }
-    for (i = 0; i < n; i++) printf("%s : %d\n", t[i]->word, t[i]->freq);
+    for (i = 0; i < n; i++) printf("%*s : %d\n",longest, t[i]->word, t[i]->freq);
     free(t);
+    */
 }
 
 
 void mostFrequentList(List *L, int k) {
-    int n = 0, max = 0;
+   /*Sorry I messed something up on this one, I'll fix it though, when I understand it....... 
+   
+   int n = 0, max = 0;
     for (List *temp = L; temp; temp = temp->next) {
         n++;
-        if (temp->freq > max) max = temp->freq;
+        if (temp->dict.freq > max) max = temp->dict.freq;
     }
     if (n == 0) return;
 
@@ -91,7 +102,7 @@ void mostFrequentList(List *L, int k) {
     int *start = calloc(max + 1, sizeof(int));
     if (!sorted || !start) exit(1);
 
-    for (dictionary *p = head; p; p = p->next) start[p->freq]++;
+    for (List *p = head; p; p = p->next) start[p->freq]++;
 
     int pos = 0;
     for (int f = max; f >= 1; f--) {
@@ -106,21 +117,20 @@ void mostFrequentList(List *L, int k) {
 
     free(sorted);
     free(start);
+    */
 }
+    
 
 /* ADDED: frees every node of the list */
 void freeList(List *L) {
     List *temp = L;
     while (temp) {
-        List *next = p->next;
-        free(p);
-        p = next;
+        List *next = temp->next;
+        free(temp);
+        temp = next;
     }
     L = NULL;
 }
-
-
-
 
 
 /* Writes n random words taken from a vocabulary of V words */

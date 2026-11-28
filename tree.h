@@ -5,7 +5,7 @@
 
 
 Tree *addtoABR(Tree *T, char word[]);
-void displayABRDictionary(Tree *t );
+void displayABRDictionary(Tree *t, int longest );
 Tree *deletefromABR(Tree *T, char word[]);
 int maxFreqABR(Tree *T, int fmax);
 void freeABR(Tree *t);

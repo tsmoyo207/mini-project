@@ -1,5 +1,6 @@
 #ifndef COMMON_H_INCLUDED
 #define COMMON_H_INCLUDED
+#include <stdbool.h>
 
 
 #ifdef _WIN32

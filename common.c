@@ -6,6 +6,7 @@
 #include "common.h"
 #include "tree.h"
 #include "array.h"
+#include "linked-list.h" 
 
 
 void lowercase(char word[]){

@@ -47,14 +47,14 @@ Tree *addtoABR(Tree *T, char word[]){
     return  T;
 }
 
-void displayABRDictionary(Tree *t ){
+void displayABRDictionary(Tree *t, int longest ){
     if(t != NULL){
         if(t->left != NULL){
-            displayABRDictionary(t->left);
+            displayABRDictionary(t->left, longest);
         }
-        printf("%-20s  :%d\n", t->dict.word, t->dict.freq);
+        printf("%*s  :%d\n",longest, t->dict.word, t->dict.freq);
         if(t->right != NULL){
-            displayABRDictionary(t->right);
+            displayABRDictionary(t->right, longest);
         }
     }
 }
