@@ -1,5 +1,5 @@
-#ifndef TREE_H_INCLUDED
-#define TREE_H_INCLUDED
+#ifndef ARRAY_H_INCLUDED
+#define ARRAY_H_INCLUDED
 #include "common.h"
 
 

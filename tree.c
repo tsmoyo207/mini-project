@@ -48,7 +48,7 @@ Tree *addwordtoABR(Tree *T, char word[]){
 }
 
 void displayABRDictionary(Tree *t ){
-    if(T!=NULL){
+    if(t != NULL){
         if(t->left != NULL){
             displayABRDictionary(t->left);
         }
