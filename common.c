@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <ctype.h>
 #include "common.h"
 #include "tree.h"
@@ -81,4 +82,27 @@ void pause() {
     while(getchar() != '\n');
     getchar();
     system(CLEAR_SCREEN);
+}
+
+bool generateText(char Filename [], int n, int V){
+    FILE *f = fopen(Filename, "w");
+    
+    if(!f){
+        printf("error in opening the file\n");
+        return false;
+    }
+
+    if(n <= 0 || V <= 0 || V > RAND_MAX){
+        printf("n must be positive and V must be between 1 and %d\n", RAND_MAX);
+        fclose(f);
+        return false;
+    }
+
+    for(int i = 0; i < n; i++){
+        fprintf(f, "w%d\n", rand() % V);
+    }
+
+    fclose(f);
+    printf("text successfully generated!");
+    return true;
 }

@@ -59,6 +59,7 @@ typedef struct List{
 void lowercase(char word[]);
 void splitWordsFromFile(Tree **T, Array **A, int indicator, int *e);
 void pause();
+bool generateText(char Filename[], int n, int V);
 
 
 #endif // CONSTANTS_H_INCLUDED
