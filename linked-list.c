@@ -5,15 +5,11 @@
 #include <time.h>  
 #include "linked-list"   
 
-
-
-
-
 List *addtoList(List *L, char word[]){
     if( L !=NULL){
-        for(List *temp = *L ; p ; p = p->next){
-            if(strcmp(p->word,w) == 0 ){
-                p->freq++;
+        for(List *temp = *L ; temp ; temp = temp->next){
+            if(strcmp(temp->word,w) == 0 ){
+                temp->freq++;
                 return L;
             }
         }
@@ -31,24 +27,26 @@ List *addtoList(List *L, char word[]){
     return newNode;
 }
 
-
 int seachList(List *L, char word[]){
-
-    for(dictionary *p = head; p ; p= p->next){
-         if(strcmp(p->word,w) == 0) return p->freq;
+    for(List *temp = L; temp ; temp= temp->next){
+        if(strcmp(temp->word,word) == 0){
+            return temp->freq;
+        } 
+    }
     return 0;
 }
 
 
 
-int list_delete(dictionary **head, const char *w)
-{
-    dictionary **p = head;
-    while(*p){
-       if(strcmp((*p)->word , w) == 0){
-          dictionary *tmp = *p;
-          *p = tmp->next;
-          free(tmp);
+int deletefromList(List *L, char word[]){
+    List *temp = L;
+    while(temp){
+        /*there are 3 cases for this one. When we've found the node we want to remove we need to check 
+        if its at the start, at the midddle or at the end*/
+       if(strcmp(temp->word , word) == 0){
+          List *p = *temp;
+          *temp = p->next;
+          free(p);
           return 1;
        }
        p = &(*p)->next;
@@ -57,8 +55,9 @@ int list_delete(dictionary **head, const char *w)
 }
 
 
-void list_print_alpha(dictionary *head) {
+void displayList(List *L) {
     int n = 0;
+    /*I genuinely don't understand what going on here. Should it just traverse the list and display. Whats going on here*/
     for (dictionary *p = head; p; p = p->next) n++;
     if (n == 0) return;
     dictionary **t = malloc(n * sizeof(dictionary *));
@@ -80,15 +79,15 @@ void list_print_alpha(dictionary *head) {
 }
 
 
-void list_top_k(dictionary *head, int k) {
+void list_top_k(List *L, int k) {
     int n = 0, max = 0;
-    for (dictionary *p = head; p; p = p->next) {
+    for (List *temp = L; temp; temp = temp->next) {
         n++;
-        if (p->freq > max) max = p->freq;
+        if (temp->freq > max) max = temp->freq;
     }
     if (n == 0) return;
 
-    dictionary **sorted = malloc(n * sizeof(dictionary *));
+    List **sorted = malloc(n*sizeof(List*));
     int *start = calloc(max + 1, sizeof(int));
     if (!sorted || !start) exit(1);
 
@@ -100,7 +99,7 @@ void list_top_k(dictionary *head, int k) {
         start[f] = pos;
         pos += c;
     }
-    for (dictionary *p = head; p; p = p->next) sorted[start[p->freq]++] = p;
+    for (List *temp = L; temp; temp = temp->next) sorted[start[temp->freq]++] = temp;
 
     for (int i = 0; i < k && i < n; i++)
         printf("%d. %s : %d\n", i + 1, sorted[i]->word, sorted[i]->freq);
@@ -110,43 +109,18 @@ void list_top_k(dictionary *head, int k) {
 }
 
 /* ADDED: frees every node of the list */
-void list_destroy(dictionary **head) {
-    dictionary *p = *head;
-    while (p) {
-        dictionary *next = p->next;
+void freeList(List *L) {
+    List *temp = L;
+    while (temp) {
+        List *next = p->next;
         free(p);
         p = next;
     }
-    *head = NULL;
+    L = NULL;
 }
 
-/* Reads a text file: lowercase, punctuation removed, each word added.
-   Returns the number of words read, -1 on error. */
-int list_load_file(dictionary **head, const char *filename) {
-    FILE *f = fopen(filename, "r");
-    if (!f) { perror("fopen"); return -1; }
 
-    char buf[MAX];
-    int len = 0, count = 0, c;
 
-    while ((c = fgetc(f)) != EOF) {
-        if (isalnum(c) || c >= 128) {          /* letter, digit, or accented byte */
-            if (len < MAX - 1) buf[len++] = (char)tolower(c);
-        } else if (len > 0) {                  /* separator: the word is finished */
-            buf[len] = '\0';
-            list_add(head, buf);
-            count++;
-            len = 0;
-        }
-    }
-    if (len > 0) {                             /* last word if no trailing space */
-        buf[len] = '\0';
-        list_add(head, buf);
-        count++;
-    }
-    fclose(f);
-    return count;
-}
 
 
 /* Writes n random words taken from a vocabulary of V words */
@@ -158,44 +132,3 @@ void generate_random_text(const char *filename, int n, int V) {
     fclose(f);
 }
 
-/* Average build time (seconds) for n words from a vocabulary of V words */
-static double build_time(int n, int V, int sims) {
-    double total = 0;
-    char (*words)[MAX] = malloc((size_t)n * sizeof *words);
-    if (!words) exit(1);
-    for (int s = 0; s < sims; s++) {
-        for (int i = 0; i < n; i++) sprintf(words[i], "word%d", rand() % V);
-        dictionary *l = NULL;
-        clock_t t0 = clock();
-        for (int i = 0; i < n; i++) list_add(&l, words[i]);
-        total += (double)(clock() - t0) / CLOCKS_PER_SEC;
-        list_destroy(&l);
-    }
-    free(words);
-    return total / sims;
-}
-
-
-/* Average time (seconds) of ONE search, repeated 'reps' times */
-static double search_time(int n, int V, int sims, int reps) {
-    double total = 0;
-    char (*words)[MAX] = malloc((size_t)n * sizeof *words);
-    char (*queries)[MAX] = malloc((size_t)reps * sizeof *queries);
-    if (!words || !queries) exit(1);
-    for (int s = 0; s < sims; s++) {
-        dictionary *l = NULL;
-        for (int i = 0; i < n; i++) {
-            sprintf(words[i], "word%d", rand() % V);
-            list_add(&l, words[i]);
-        }
-        for (int i = 0; i < reps; i++) sprintf(queries[i], "word%d", rand() % V);
-        volatile int sink = 0;
-        clock_t t0 = clock();
-        for (int i = 0; i < reps; i++) sink += list_search(l, queries[i]);
-        total += (double)(clock() - t0) / CLOCKS_PER_SEC / reps;
-        list_destroy(&l);
-    }
-    free(words);
-    free(queries);
-    return total / sims;
-}
