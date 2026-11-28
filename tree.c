@@ -6,7 +6,7 @@
 #include "common.h"
 
 
-Tree *addword(Tree *T, char word[]){
+Tree *addwordtoABR(Tree *T, char word[]){
     Tree *prev = NULL;
     Tree *C = T;
     int last_move = 0; 
@@ -47,25 +47,27 @@ Tree *addword(Tree *T, char word[]){
     return  T;
 }
 
-void displayDictionary(Tree *t, int width){
-    if(t->left != NULL){
-        displayDictionary(t->left, width);
-    }
-    printf("%-*s  :%d\n",width, t->dict.word, t->dict.freq);
-    if(t->right != NULL){
-        displayDictionary(t->right, width);
+void displayABRDictionary(Tree *t ){
+    if(T!=NULL){
+        if(t->left != NULL){
+            displayABRDictionary(t->left);
+        }
+        printf("%-20s  :%d\n", t->dict.word, t->dict.freq);
+        if(t->right != NULL){
+            displayABRDictionary(t->right);
+        }
     }
 }
 
-Tree *deleteABR(Tree *T, char word[]){
+Tree *deletefromABR(Tree *T, char word[]){
     if(T == NULL){
         return NULL;
     }
     if(strcmp(word, T->dict.word) < 0){
-        T->left = deleteABR(T->left, word);
+        T->left = deletefromABR(T->left, word);
     }else{
         if(strcmp(word, T->dict.word) > 0){
-            T->right = deleteABR(T->right, word);
+            T->right = deletefromABR(T->right, word);
         }else{
             if(T->left == NULL && T->right == NULL){
                 free(T);
@@ -88,29 +90,34 @@ Tree *deleteABR(Tree *T, char word[]){
                         }
 
                         T->dict = temp->dict;
-                        T->right = deleteABR(T->right, temp->dict);
+                        T->right = deletefromABR(T->right, temp->dict.word);
                     }
                 }
             }
         }
     }
-    return abr;
+    return T;
 }
 
-dictionary searchTree(Tree *T, char word[], dictionary dict){
+int searchABR(Tree *T, char word[]){
     if(T == NULL){
-        return dict;
+        return -1;
     }
-    if(strcmp(word, T->dict.word) < 0){
-        dict = searchTree(T->left, word, dict);
-    }else{
-        if(strcmp(word, T->dict.word) > 0){
-           dict =  searchTree(T->right, word, dict);
+    int freq = -1;
+
+    while(T != NULL){
+        if(strcmp(word, T->dict.word) < 0){
+            T = T->left;
         }else{
-            dict = T->dict;
+            if(strcmp(word, T->dict.word) > 0){
+            T = T->right;
+            }else{
+                freq = T->dict.freq;
+                break;
+            }
         }
     }
-    return dict;
+    return freq;
 }
 
 
@@ -125,12 +132,12 @@ int maxFreqABR(Tree *T, int fmax){
     return fmax;
 }
 
-void freeTree(Tree *t){
+void freeABR(Tree *t){
     if(t == NULL){
         return;
     }
-    freeTree(t->left);
-    freeTree(t->right);
+    freeABR(t->left);
+    freeABR(t->right);
     free(t);
 
 }
@@ -140,11 +147,6 @@ void freeTree(Tree *t){
 
 
 
-int main(){
-    
-   
-   
-}
 
 
 

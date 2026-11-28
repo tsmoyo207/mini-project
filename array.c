@@ -12,13 +12,15 @@
 // Procedure to convert a word to lowercase
 
 //Procedure to initialize the array
-void initialise(Array *A){
-    A->n = 0; //at the beginning, the array is empty, so we set the number of words to 0
+Array *initialiseArray(){
+    Array *A = malloc(sizeof(Array));
+    A->n = 0;
+    return A; //at the beginning, the array is empty, so we set the number of words to 0
 }
 
 // Function to search for a word in the array using binary search
-int search(Array *A, char word[]){
-    // low and high defines the current search intervals
+int searchArray(Array *A, char word[]){
+   
     int low = 0;
     int high = A->n - 1;
 
@@ -26,10 +28,10 @@ int search(Array *A, char word[]){
         // calculate the middle index of the current search interval
         int mid = (low + high) / 2; 
         // compares the searched word with the word at the middle index
-        int compare = strcmp(word, A->dictTab[mid].word); 
+        int compare = strcmp(word, A->dict[mid].word); 
         // if both words are equal, we found the word and return its index
         if(compare == 0){
-            return mid;
+            return A->dict[mid].freq;
         //if the word comes alphabetically before the middle word, we search in the left half of the dictionary
         }else if(compare < 0){
             high = mid - 1; 
@@ -43,19 +45,26 @@ int search(Array *A, char word[]){
 }
 
 // Procedure to add a word to the array or increase its frequency if it already exists
-void addword(Array *A, char word[]){
+Array *addwordtoArray(Array *A, char word[]){
     // First, we search for the word in the dictionary
-    int index = search(A, word);
+    int index = -1;
+
+    for(int i = 0; i< A->n; i++){
+        if(strcmp(A->dict[i].word, word) == 0){
+            index = i;
+            break;
+        }
+    }
     // If the word is found, we increase its frequency and return
     if(index != -1){
-        A->dictTab[index].freq++;
-        return;
+        A->dict[index].freq++;
+        return A;
     }
 
     //check wheter the dictionary have reached it maximum capacity, if so we print an error message and return
     if(A->n >= MAXlen){
         printf("Dictionary, cannot add more words.\n");
-        return;
+        return A;
     }
 
     /*
@@ -63,46 +72,53 @@ void addword(Array *A, char word[]){
     shifting words to the right until we find the correct position for the new word
      */
     int pos = A->n - 1;
-    while(pos >= 0 && strcmp(word, A->dictTab[pos].word) < 0){
+    while(pos >= 0 && strcmp(word, A->dict[pos].word) < 0){
         // shift the current entry one position to the right
-        A->dictTab[pos + 1] = A->dictTab[pos];
+        A->dict[pos + 1] = A->dict[pos];
         pos--; // move to the previous position
     }
     /*
      insert the new entry at the correct position and set its frequency to 1 and then increase the number of dictionary entries
      */
-    strcpy(A->dictTab[pos + 1].word, word);
-    A->dictTab[pos + 1].freq = 1;
+    strcpy(A->dict[pos + 1].word, word);
+    A->dict[pos + 1].freq = 1;
     A->n++;
+    return A;
 }
+
+
 // Function to delete a word from the array
-int deleteword(Array *A, char word[]){
+Array *deletefromArray(Array *A, char word[]){
     // search for the word in the dictionary
     int index = search(A, word);
-    // if the word is not found, return 0 to indicate failure
+    // if the word is not found, indicate failure
     if(index == -1){
-        return 0; 
+        printf(RED"Word not found\n"RESET);
+        return A; 
     }
+
+    
     // shift all words after the found word one position to the left to fill the gap
     for(int pos = index; pos < A->n - 1; pos++){
-        A->dictTab[pos] = A->dictTab[pos + 1];
+        A->dict[pos] = A->dict[pos + 1];
     }
     A->n--; // decrease the number of words in the dictionary
-    return 1; 
+    printf(GRN"Deletion Successful\n"RESET);
+    return A; 
 }
 
 // Procedure to display the contents of the dictionary and their frequencies
-void displayDictionary(Array *A){
+void displayArrayDictionary(Array *A){
     for(int i = 0; i < A->n; i++){
-        printf("%s : %d\n", 
-            A->dictTab[i].word, 
-            A->dictTab[i].freq
+        printf("%-20s : %d\n", 
+            A->dict[i].word, 
+            A->dict[i].freq
         );
     }
 }
 
 // Procedure to find and display the most frequent words in the dictionary using counting sort algorithm
-void MostFrequent(Array *A, int Nbwords){
+void mostFrequent(Array *A, int Nbwords){
     //checks if the dictionary is empty, if so it prints a message and returns
     if(A->n == 0){
         printf("The dictionary is empty\n");
@@ -111,8 +127,8 @@ void MostFrequent(Array *A, int Nbwords){
     // find the maximum frequency in the dictionary to determine the size of the counting array
     int fmax = 0;
     for(int i = 0; i < A->n; i++){
-        if(A->dictTab[i].freq > fmax){
-            fmax = A->dictTab[i].freq;
+        if(A->dict[i].freq > fmax){
+            fmax = A->dict[i].freq;
         }
     }
     /*
@@ -134,7 +150,7 @@ void MostFrequent(Array *A, int Nbwords){
     }
     // count how many words have each frequency
     for(int i = 0; i < A->n; i++){
-        count[A->dictTab[i].freq]++;
+        count[A->dict[i].freq]++;
     }
 
     /*
@@ -154,7 +170,7 @@ void MostFrequent(Array *A, int Nbwords){
     //place the dictionary indices in order of decreasing frequencies
     for(int i = 0; i < A->n; i++){
         // place the index of the word in the order array based on its frequency
-        order[count[A->dictTab[i].freq]++] = i;
+        order[count[A->dict[i].freq]++] = i;
         // increment the count for that frequency to point to the next position
     }
     // limits the result to the dictionary size if the requested number of words exceeds it
@@ -170,8 +186,8 @@ void MostFrequent(Array *A, int Nbwords){
     for(int rank = 0; rank < Nbwords; rank++){
         //order[rank] gives the index of the word in the original dictionary dictionary
         printf("%d : %s : %d\n", 
-            rank + 1, A->dictTab[order[rank]].word,
-             A->dictTab[order[rank]].freq
+            rank + 1, A->dict[order[rank]].word,
+             A->dict[order[rank]].freq
             );
     }
 
