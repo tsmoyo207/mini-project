@@ -1,7 +1,6 @@
 #ifndef COMMON_H_INCLUDED
 #define COMMON_H_INCLUDED
-#include "tree.h"
-#include "array.h"
+
 
 #ifdef _WIN32
 #define CLEAR_SCREEN "cls"
@@ -13,6 +12,7 @@
 #define MAXWORD 200
 #define MAXLINE 1000
 #define MAXlen 100000
+
 
 #define GRN "\x1B[32m"
 #define GRN_BR_BOLD "\x1B[1;92m"
@@ -45,6 +45,13 @@ typedef struct{
     dictionary dict[MAXlen]; // array of dictionary entries
     int n; // number of words currently stored in the array
 }Array;
+
+typedef struct List{
+    dictionary dict;
+    struct List *next;
+}List;
+
+
 
 
 

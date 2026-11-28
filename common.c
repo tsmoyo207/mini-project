@@ -3,6 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 #include "common.h"
+#include "tree.h"
+#include "array.h"
 
 
 void lowercase(char word[]){
@@ -61,10 +63,10 @@ void splitWordsFromFile(Tree **T, Array **A, int indicator, int *e){
                 lowercase(word);
                 switch(indicator){
                 case 3:
-                    T = addwordtoABR(T, word);
+                    *T = addwordtoABR(*T, word);
                     break;
                 case 1:
-                    A = addwordtoArray(A, word);
+                    *A = addwordtoArray(*A, word);
                     break;
                 }
             }

@@ -90,7 +90,7 @@ Array *addwordtoArray(Array *A, char word[]){
 // Function to delete a word from the array
 Array *deletefromArray(Array *A, char word[]){
     // search for the word in the dictionary
-    int index = searchArray(A, word);
+    int index = search(A, word);
     // if the word is not found, indicate failure
     if(index == -1){
         printf(RED"Word not found\n"RESET);

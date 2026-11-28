@@ -2,41 +2,44 @@
 #include <stdlib.h>
 #include <string.h>  
 #include <ctype.h>    
-#include <time.h>     
-
-#define MAX 100       
-
-
-typedef struct node{
-    char word[MAX];
-    int freq;
-    struct node *next;
-}dictionary;
+#include <time.h>  
+#include "linked-list"   
 
 
-void list_add(dictionary **head, const char *w)   
-{
-    for(dictionary *p = *head ; p ; p = p->next){
-        if(strcmp(p->word,w) == 0 ){
-            p->freq++;
-            return ;
+
+
+
+List *addtoList(List *L, char word[]){
+    if( L !=NULL){
+        for(List *temp = *L ; p ; p = p->next){
+            if(strcmp(p->word,w) == 0 ){
+                p->freq++;
+                return L;
+            }
         }
     }
-        dictionary *n = malloc(sizeof(dictionary));
-        if (!n) { fprintf(stderr, "malloc failed\n"); exit(1); }
-        strncpy(n->word, w , MAX - 1);
-        n->word[MAX - 1] = '\0';
-        n->freq = 1;
-        n->next = *head;
-        *head = n;
+
+    List *newNode = (List*)malloc(sizeof(List));
+    if (!newNode){ 
+        printf(RED"Dynamic Memory allocation Failure\n"RESET);
+        return L;
+    }
+
+    strcpy(newNode->word, word);
+    newNode->freq = 1;
+    newNode->next = L;
+    return newNode;
 }
 
-int list_search(dictionary *head, const char *w)
-{
-    for(dictionary *p = head; p ; p= p->next)
+
+int seachList(List *L, char word[]){
+
+    for(dictionary *p = head; p ; p= p->next){
          if(strcmp(p->word,w) == 0) return p->freq;
     return 0;
 }
+
+
 
 int list_delete(dictionary **head, const char *w)
 {
@@ -52,6 +55,7 @@ int list_delete(dictionary **head, const char *w)
     }
   return 0;
 }
+
 
 void list_print_alpha(dictionary *head) {
     int n = 0;
@@ -74,6 +78,7 @@ void list_print_alpha(dictionary *head) {
     for (i = 0; i < n; i++) printf("%s : %d\n", t[i]->word, t[i]->freq);
     free(t);
 }
+
 
 void list_top_k(dictionary *head, int k) {
     int n = 0, max = 0;

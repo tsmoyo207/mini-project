@@ -62,7 +62,7 @@ int main(){
                             if(freq == -1){
                                 printf(RED"Word not found on Dictionary"RESET);
                             }else{
-                                printf(GRN"Seach Complete:"RESET"The word"GRN"%s"RESET"has a Freq of"GRN" %d" RESET, word, freq);
+                                printf(GRN"Seach Complete:"RESET"The word"GRN" %s "RESET"has a Freq of"GRN" %d " RESET, word, freq);
                             }
                             pause();
                             break;
@@ -89,7 +89,7 @@ int main(){
                             break;
                         case 7: 
                             printf("Exiting to Main Menu............\n");
-                            system("CLEAR_SCREEN");
+                            system(CLEAR_SCREEN);
                             loop1 = false;
                             break;
                         default:
@@ -99,6 +99,7 @@ int main(){
                     }
 
                 }while(loop1);
+                break;
 
             case 3:
                 do{
@@ -129,7 +130,7 @@ int main(){
                             if(freq == -1){
                                 printf(RED"Word not found on Dictionary"RESET);
                             }else{
-                                printf(GRN"Seach Complete:"RESET"The word"GRN"%s"RESET"has a Freq of"GRN" %d" RESET, word, freq);
+                                printf(GRN"Seach Complete:"RESET"The word"GRN" %s "RESET"has a Freq of"GRN" %d " RESET, word, freq);
                             }
                             pause();
                             break;
@@ -160,7 +161,7 @@ int main(){
                             break;
                         case 7: 
                             printf("Exiting to Main Menu............\n");
-                            system("CLEAR_SCREEN");
+                            system(CLEAR_SCREEN);
                             loop2 = false;
                             break;
                         default:
@@ -170,6 +171,7 @@ int main(){
                     }
 
                 }while(loop2);
+                break;
             default: 
                 printf(RED"Sorry, Section not yet available\n");
 
