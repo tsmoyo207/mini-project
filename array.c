@@ -8,18 +8,19 @@
 
 
 
-
-// Procedure to convert a word to lowercase
-
 //Procedure to initialize the array
 Array *initialiseArray(){
     Array *A = malloc(sizeof(Array));
+    if(A == NULL){
+        printf("Memory allocation failed\n");
+        return NULL;
+    }
     A->n = 0;
     return A; //at the beginning, the array is empty, so we set the number of words to 0
 }
 
-// Function to search for a word in the array using binary search
-int searchArray(Array *A, char word[]){
+// Function to search for an index of a word in an Array
+int findIndexArray(Array *A, char word[]){
    
     int low = 0;
     int high = A->n - 1;
@@ -31,7 +32,7 @@ int searchArray(Array *A, char word[]){
         int compare = strcmp(word, A->dict[mid].word); 
         // if both words are equal, we found the word and return its index
         if(compare == 0){
-            return A->dict[mid].freq;
+            return mid;
         //if the word comes alphabetically before the middle word, we search in the left half of the dictionary
         }else if(compare < 0){
             high = mid - 1; 
@@ -44,17 +45,21 @@ int searchArray(Array *A, char word[]){
     return -1;
 }
 
+// function to search for a word inside the array and return its frequency
+int searchArray(Array *A, char word[]){
+    int index = findIndexArray(A, word);
+    if(index == -1){
+        return -1;
+    }
+    else{
+        return A->dict[index].freq;
+    }
+}
+
 // Procedure to add a word to the array or increase its frequency if it already exists
 Array *addwordtoArray(Array *A, char word[]){
     // First, we search for the word in the dictionary
-    int index = -1;
-
-    for(int i = 0; i< A->n; i++){
-        if(strcmp(A->dict[i].word, word) == 0){
-            index = i;
-            break;
-        }
-    }
+    int index = findIndexArray(A, word);
     // If the word is found, we increase its frequency and return
     if(index != -1){
         A->dict[index].freq++;
@@ -90,7 +95,7 @@ Array *addwordtoArray(Array *A, char word[]){
 // Function to delete a word from the array
 Array *deletefromArray(Array *A, char word[]){
     // search for the word in the dictionary
-    int index = searchArray(A, word);
+    int index = findIndexArray(A, word);
     // if the word is not found, indicate failure
     if(index == -1){
         printf(RED"Word not found\n"RESET);
@@ -180,6 +185,8 @@ void mostFrequent(Array *A, int Nbwords){
 
     // prevents invalid requests
     if(Nbwords <= 0){
+        free(count);
+        free(order);
         return;
     }
     // display the most frequent words along with their frequencies
@@ -193,6 +200,11 @@ void mostFrequent(Array *A, int Nbwords){
 
     free(count);
     free(order);
+}
+
+// procedure to free up the memory used by the array
+void destroyArray(Array *A){
+    free(A);
 }
 
 // declare the global dictionary array
