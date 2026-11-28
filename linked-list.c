@@ -37,24 +37,25 @@ int searchList(List *L, char word[]){
 }
 
 
-
 List *deletefromList(List *L, char word[]){
     List *temp = L;
-    List *p = NULL;
-    while(temp){
-        /*there are 3 cases for this one. When we've found the node we want to remove we need to check 
-        if its at the start, at the middle or at the end*/
-       if(strcmp(temp->dict.word , word) == 0){
-          p = temp;
-          temp = p->next;
-          free(p);
-          printf(GRN"Deletion Successful\n"RESET);
-          return L;
-       }
-       //p = &(*p)->next; //this line was just giving me an error idk
+    List *prev = NULL;
+
+    while (temp) {
+        if (strcmp(temp->dict.word, word) == 0) {
+            if (prev == NULL)
+                L = temp->next;            // for  first node
+            else
+                prev->next = temp->next;   // for middle or end
+            free(temp);
+            printf(GRN"Deletion Successful\n"RESET);
+            return L;
+        }
+        prev = temp;                       
+        temp = temp->next;                 
     }
     printf(RED"Word not found\n"RESET);
-  return L;
+    return L;
 }
 
 
