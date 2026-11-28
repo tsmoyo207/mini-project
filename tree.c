@@ -3,7 +3,6 @@
 #include <string.h>
 #include <ctype.h>
 
-
 #define MAXWORD 200
 #define MAXLINE 1000
 typedef struct{
@@ -148,7 +147,6 @@ dictionary searchTree(Tree *T, char word[], dictionary dict){
     return dict;
 
 }
-
 
 int maxFreqABR(Tree *T, int fmax){
 
